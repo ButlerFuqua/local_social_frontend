@@ -1,5 +1,5 @@
 {
-  "name": "nuxt_config_pwa",
+  "name": "creek_bank_social",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
-    "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "fibers": "^5.0.0",

@@ -18,7 +18,7 @@ export default {
   asyncScripts: true,
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
-  head: generateHeadTags('Nuxt PWA Vuetify Optimized', 'welcome', null, false),
+  head: generateHeadTags('Creek bank Social', 'welcome', null, false),
   css: [
     '~/assets/css/global.css',
   ],
@@ -35,17 +35,17 @@ export default {
     '@nuxtjs/sitemap',
   ],
   sitemap: {
-    hostname: 'https://DOMAIN_NAME.com',
+    hostname: 'https://creekbanksocial.com',
   },
-  pwa: {
-    manifest: {
-      name: 'Confessions',
-      short_name: 'B & H',
-    },
-    meta: {
-      theme_color: secondaryColor
-    }
-  },
+  // pwa: {
+  //   manifest: {
+  //     name: 'Creek bank Social',
+  //     short_name: 'OS',
+  //   },
+  //   meta: {
+  //     theme_color: secondaryColor
+  //   }
+  // },
   axios: {},
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
