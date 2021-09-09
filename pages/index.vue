@@ -1,30 +1,33 @@
 <template>
   <div id="container">
-    <v-card class="pa-4 text-center">
-      <h1>Creek bank Social</h1>
-      <p>A locals-only social media app.</p>
-      <p>Check back often for updates.</p>
-      <h3>Coming soon!</h3>
-    </v-card>
+    <Login :forgotPasswordAction="forgotPasswordAction" />
   </div>
 </template>
 
 <script>
 import generateHeadTags from "../lib/generateMeta";
+import Login from "../components/startup/Login.vue";
 export default {
   layout: "landing",
   head: generateHeadTags(
     "Creek bank Social",
-    "A social app for citizens of Creek bank, AL.",
+    "A social app for citizens of Ohatchee, AL.",
     "thumbnail",
     null,
     true
   ),
-  components: {},
+  components: {
+    Login,
+  },
   data() {
     return {
       pageTitle: "Creek bank Social",
     };
+  },
+  methods: {
+    forgotPasswordAction() {
+      console.log("forgot password.");
+    },
   },
   async created() {
     this.$nuxt.$emit("pageTitleChange", this.pageTitle);
