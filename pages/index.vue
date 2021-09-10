@@ -21,12 +21,14 @@
       />
       <ForgotPassword
         v-if="screen.forgotPassword"
-        :showConfirmPasswordCodeScreen="() => updateScreen('confirmCode')"
+        :showConfirmPasswordCodeScreen="
+          () => updateScreen('confirmPasswordCode')
+        "
         :toggleLoading="toggleLoading"
         :updateErrorMessage="updateErrorMessage"
       />
       <ConfirmPasswordCode
-        v-if="screen.confirmCode"
+        v-if="screen.confirmPasswordCode"
         :toggleLoading="toggleLoading"
         :updateErrorMessage="updateErrorMessage"
       />
@@ -61,7 +63,7 @@
         Forgot?
       </v-btn>
       <v-btn
-        v-if="screen.forgotPassword"
+        v-if="screen.forgotPassword || screen.confirmPasswordCode"
         class="mt-2"
         @click="updateScreen('login')"
         rounded
@@ -104,7 +106,7 @@ export default {
         login: true,
         createAccount: false,
         forgotPassword: false,
-        confirmCode: false,
+        confirmPasswordCode: false,
       },
     };
   },
