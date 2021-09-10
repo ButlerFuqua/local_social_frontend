@@ -1,12 +1,7 @@
 <template>
   <div>
-    <v-progress-circular
-      v-if="isLoading"
-      indeterminate
-      color="primary"
-    ></v-progress-circular>
-    <v-card v-else-if="!confirmed">
-      <div v-if="!isLoading" class="pa-4 text-center">
+    <v-card v-if="!confirmed">
+      <div class="pa-4 text-center">
         <p>Confirm Code</p>
         <v-text-field
           filled
@@ -38,34 +33,29 @@
         >
       </div>
     </v-card>
-    <v-chip v-if="errorMessage" class="mt-2" color="red" dark>{{
-      errorMessage
-    }}</v-chip>
   </div>
 </template>
 
 <script>
 export default {
   name: "ConfirmCode",
-  props: [],
+  props: ["toggleLoading", "updateErrorMessage"],
   components: {},
   data() {
     return {
-      isLoading: false,
       codeInput: "",
       confirmed: false,
       password1Input: "",
       password2Input: "",
-      errorMessage: null,
     };
   },
   methods: {
     async confirmCodeHandler() {
-      this.errorMessage = null;
-      this.isLoading = false;
+      this.updateErrorMessage(null);
+      this.toggleLoading(true);
       //REPLACE FROM -------------------------------------------------------
       const fakeWaitTime = 600;
-      const simulateError = true;
+      const simulateError = false;
       const fakeConfrimPromise = () =>
         new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -98,9 +88,9 @@ export default {
         data: { success, message },
       } = response;
 
-      this.isLoading = false;
+      this.toggleLoading(false);
 
-      if (!success) return (this.errorMessage = message);
+      if (!success) return this.updateErrorMessage(message);
 
       this.confirmed = true;
     },

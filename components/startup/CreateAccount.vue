@@ -24,7 +24,7 @@
 <script>
 export default {
   name: "CreateAccount",
-  props: [],
+  props: ["toggleLoading", "updateErrorMessage"],
   components: {},
   data() {
     return {
@@ -33,8 +33,49 @@ export default {
     };
   },
   methods: {
-    createAccountHandler() {
-      console.log("CreateAccount!!!");
+    async createAccountHandler() {
+      this.updateErrorMessage(null);
+      this.toggleLoading(true);
+      //REPLACE FROM -------------------------------------------------------
+      const fakeWaitTime = 600;
+      const simulateError = false;
+      const fakeCreateAccountPromise = () =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (!simulateError)
+              resolve({
+                data: {
+                  success: true,
+                  message: `Account has been created`,
+                },
+              });
+            else
+              reject({
+                data: {
+                  success: false,
+                  message: `There was an error creating your account.`,
+                },
+              });
+          }, fakeWaitTime);
+        });
+      //REPLACE TO -------------------------------------------------------
+
+      let response;
+      try {
+        response = await fakeCreateAccountPromise();
+      } catch (error) {
+        response = error;
+      }
+
+      const {
+        data: { success, message },
+      } = response;
+
+      this.toggleLoading(false);
+
+      if (!success) return this.updateErrorMessage(message);
+
+      // Navigate to bulletin
     },
   },
 };

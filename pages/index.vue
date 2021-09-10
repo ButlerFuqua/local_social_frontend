@@ -1,52 +1,76 @@
 <template>
   <div id="container">
-    <Login v-if="screen.login" />
-    <CreateAccount v-if="screen.createAccount" />
-    <ForgotPassword
-      v-if="screen.forgotPassword"
-      :showConfirmPasswordCodeScreen="() => updateScreen('confirmCode')"
-    />
-    <ConfirmPasswordCode v-if="screen.confirmCode" />
-    <v-btn
-      v-if="screen.login"
-      class="mt-2"
-      @click="updateScreen('createAccount')"
-      rounded
-      color="secondary"
-      dark
-    >
-      Create Account
-    </v-btn>
-    <v-btn
-      v-if="screen.createAccount"
-      class="mt-2"
-      @click="updateScreen('login')"
-      rounded
-      color="secondary"
-      dark
-    >
-      Login
-    </v-btn>
-    <v-btn
-      v-if="screen.login"
-      class="mt-2"
-      @click="updateScreen('forgotPassword')"
-      text
-      rounded
+    <v-chip v-if="errorMessage" class="mb-2" color="red" dark>{{
+      errorMessage
+    }}</v-chip>
+    <v-progress-circular
+      v-if="isLoading"
+      indeterminate
       color="primary"
-    >
-      Forgot?
-    </v-btn>
-    <v-btn
-      v-if="screen.forgotPassword"
-      class="mt-2"
-      @click="updateScreen('login')"
-      rounded
-      color="secondary"
-      dark
-    >
-      Back
-    </v-btn>
+    ></v-progress-circular>
+    <div v-if="!isLoading" class="d-flex flex-column">
+      <Login
+        v-if="screen.login"
+        :toggleLoading="toggleLoading"
+        :updateErrorMessage="updateErrorMessage"
+      />
+      <CreateAccount
+        v-if="screen.createAccount"
+        :toggleLoading="toggleLoading"
+        :updateErrorMessage="updateErrorMessage"
+      />
+      <ForgotPassword
+        v-if="screen.forgotPassword"
+        :showConfirmPasswordCodeScreen="() => updateScreen('confirmCode')"
+        :toggleLoading="toggleLoading"
+        :updateErrorMessage="updateErrorMessage"
+      />
+      <ConfirmPasswordCode
+        v-if="screen.confirmCode"
+        :toggleLoading="toggleLoading"
+        :updateErrorMessage="updateErrorMessage"
+      />
+      <v-btn
+        v-if="screen.login"
+        class="mt-2"
+        @click="updateScreen('createAccount')"
+        rounded
+        color="secondary"
+        dark
+      >
+        Create Account
+      </v-btn>
+      <v-btn
+        v-if="screen.createAccount"
+        class="mt-2"
+        @click="updateScreen('login')"
+        rounded
+        color="secondary"
+        dark
+      >
+        Login
+      </v-btn>
+      <v-btn
+        v-if="screen.login"
+        class="mt-2"
+        @click="updateScreen('forgotPassword')"
+        text
+        rounded
+        color="primary"
+      >
+        Forgot?
+      </v-btn>
+      <v-btn
+        v-if="screen.forgotPassword"
+        class="mt-2"
+        @click="updateScreen('login')"
+        rounded
+        color="secondary"
+        dark
+      >
+        Back
+      </v-btn>
+    </div>
   </div>
 </template>
 
@@ -74,6 +98,8 @@ export default {
   data() {
     return {
       pageTitle: "Creek bank Social",
+      isLoading: false,
+      errorMessage: null,
       screen: {
         login: true,
         createAccount: false,
@@ -87,6 +113,13 @@ export default {
       for (let prop in this.screen) this.screen[prop] = false;
 
       this.screen[screenToShow] = true;
+    },
+    toggleLoading(bool) {
+      if (typeof bool !== "undefined") this.isLoading = bool;
+      else this.isLoading = !this.isLoading;
+    },
+    updateErrorMessage(message) {
+      this.errorMessage = message;
     },
   },
   async created() {
