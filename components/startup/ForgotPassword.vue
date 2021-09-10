@@ -1,28 +1,24 @@
 <template>
   <v-card>
     <div class="pa-4 text-center">
-      <p>Login</p>
+      <p>Forgot Password</p>
       <v-text-field
         filled
         label="Email"
         placeholder="me@site.com"
         v-model="emailInput"
       ></v-text-field>
-      <v-text-field
-        filled
-        type="password"
-        label="Password"
-        v-model="passwordInput"
-      ></v-text-field>
-      <v-btn @click="loginHandler" rounded color="primary" dark>Login</v-btn>
+      <v-btn @click="forgotPasswordHandler" rounded color="primary" dark
+        >Send Code</v-btn
+      >
     </div>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: "Login",
-  props: [],
+  name: "ForgotPassword",
+  props: ["showConfirmPasswordCodeScreen"],
   components: {},
   data() {
     return {
@@ -31,8 +27,9 @@ export default {
     };
   },
   methods: {
-    loginHandler() {
-      console.log("LOGIN!!!");
+    forgotPasswordHandler() {
+      console.log("ForgotPassword!!!");
+      this.showConfirmPasswordCodeScreen();
     },
   },
 };

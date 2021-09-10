@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <div class="pa-4 text-center">
-      <p>Login</p>
+      <p>CreateAccount</p>
       <v-text-field
         filled
         label="Email"
@@ -14,14 +14,16 @@
         label="Password"
         v-model="passwordInput"
       ></v-text-field>
-      <v-btn @click="loginHandler" rounded color="primary" dark>Login</v-btn>
+      <v-btn @click="createAccountHandler" rounded color="primary" dark
+        >Create Account</v-btn
+      >
     </div>
   </v-card>
 </template>
 
 <script>
 export default {
-  name: "Login",
+  name: "CreateAccount",
   props: [],
   components: {},
   data() {
@@ -31,8 +33,8 @@ export default {
     };
   },
   methods: {
-    loginHandler() {
-      console.log("LOGIN!!!");
+    createAccountHandler() {
+      console.log("CreateAccount!!!");
     },
   },
 };

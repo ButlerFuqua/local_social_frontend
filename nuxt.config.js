@@ -2,8 +2,8 @@ require('dotenv').config()
 
 // import colors from 'vuetify/es5/util/colors'
 
-const primaryColor = '#3E50B1'
-const secondaryColor = '#cc208e'
+const secondaryColor = '#3E50B1'
+const primaryColor = '#cc208e'
 
 import generateHeadTags from './lib/generateMeta'
 
