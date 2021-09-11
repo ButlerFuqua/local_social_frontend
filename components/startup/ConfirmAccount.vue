@@ -1,24 +1,16 @@
 <template>
   <v-card>
     <div class="pa-4 text-center">
-      <p>CreateAccount</p>
+      <p>Confirm Account</p>
       <v-form ref="form" v-model="formIsValid">
         <v-text-field
           filled
-          label="Email"
-          placeholder="me@site.com"
-          v-model="emailInput"
-          :rules="emailRules"
+          label="Confirmation Code"
+          v-model="codeInput"
+          :rules="codeRules"
         ></v-text-field>
-        <v-text-field
-          filled
-          type="password"
-          label="Password"
-          v-model="passwordInput"
-          :rules="passwordRules"
-        ></v-text-field>
-        <v-btn @click="createAccountHandler" rounded color="primary" dark
-          >Create Account</v-btn
+        <v-btn @click="confirmCodeHandler" rounded color="primary" dark
+          >Confirm</v-btn
         >
       </v-form>
     </div>
@@ -28,25 +20,18 @@
 <script>
 export default {
   name: "CreateAccount",
-  props: ["toggleLoading", "updateErrorMessage", "updateScreen"],
+  props: ["toggleLoading", "updateErrorMessage"],
   components: {},
   data() {
     return {
-      emailInput: "example@email.com",
-      passwordInput: "password!",
+      emailInput: "",
+      codeInput: "",
       formIsValid: false,
-      emailRules: [
-        (v) => !!v || "Email is required",
-        (v) =>
-          /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
-            v
-          ) || "E-mail must be valid",
-      ],
-      passwordRules: [(v) => !!v || "Password is required"],
+      codeRules: [(v) => !!v || "Confirmation code is required"],
     };
   },
   methods: {
-    async createAccountHandler() {
+    async confirmCodeHandler() {
       // Show errors if not valid
       this.$refs.form.validate();
 
@@ -65,14 +50,14 @@ export default {
               resolve({
                 data: {
                   success: true,
-                  message: `Account has been created`,
+                  message: `Account has been confirmed`,
                 },
               });
             else
               reject({
                 data: {
                   success: false,
-                  message: `There was an error creating your account.`,
+                  message: `There was an error confirming your account.`,
                 },
               });
           }, fakeWaitTime);
@@ -94,8 +79,7 @@ export default {
 
       if (!success) return this.updateErrorMessage(message);
 
-      // Navigate to confirm account
-      this.updateScreen("confirmAccount");
+      // Navigate to bulletin
     },
   },
 };

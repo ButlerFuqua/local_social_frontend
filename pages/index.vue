@@ -18,6 +18,7 @@
         v-if="screen.createAccount"
         :toggleLoading="toggleLoading"
         :updateErrorMessage="updateErrorMessage"
+        :updateScreen="updateScreen"
       />
       <ForgotPassword
         v-if="screen.forgotPassword"
@@ -29,6 +30,12 @@
       />
       <ConfirmPasswordCode
         v-if="screen.confirmPasswordCode"
+        :updateScreen="updateScreen"
+      />
+      <ConfirmAccount
+        v-if="screen.confirmAccount"
+        :toggleLoading="toggleLoading"
+        :updateErrorMessage="updateErrorMessage"
         :updateScreen="updateScreen"
       />
       <v-btn
@@ -62,14 +69,14 @@
         Forgot?
       </v-btn>
       <v-btn
-        v-if="screen.forgotPassword"
+        v-if="screen.forgotPassword || screen.confirmAccount"
         class="mt-2"
         @click="updateScreen('login')"
         rounded
         color="secondary"
         dark
       >
-        Back
+        Back to Login
       </v-btn>
     </div>
   </div>
@@ -81,6 +88,7 @@ import Login from "../components/startup/Login.vue";
 import CreateAccount from "../components/startup/CreateAccount.vue";
 import ForgotPassword from "../components/startup/ForgotPassword.vue";
 import ConfirmPasswordCode from "../components/startup/ConfirmPasswordCode.vue";
+import ConfirmAccount from "../components/startup/ConfirmAccount.vue";
 export default {
   layout: "landing",
   head: generateHeadTags(
@@ -95,6 +103,7 @@ export default {
     CreateAccount,
     ForgotPassword,
     ConfirmPasswordCode,
+    ConfirmAccount,
   },
   data() {
     return {
@@ -106,6 +115,7 @@ export default {
         createAccount: false,
         forgotPassword: false,
         confirmPasswordCode: false,
+        confirmAccount: false,
       },
     };
   },
