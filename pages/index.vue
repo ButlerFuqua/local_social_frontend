@@ -29,8 +29,7 @@
       />
       <ConfirmPasswordCode
         v-if="screen.confirmPasswordCode"
-        :toggleLoading="toggleLoading"
-        :updateErrorMessage="updateErrorMessage"
+        :updateScreen="updateScreen"
       />
       <v-btn
         v-if="screen.login"
@@ -63,7 +62,7 @@
         Forgot?
       </v-btn>
       <v-btn
-        v-if="screen.forgotPassword || screen.confirmPasswordCode"
+        v-if="screen.forgotPassword"
         class="mt-2"
         @click="updateScreen('login')"
         rounded
