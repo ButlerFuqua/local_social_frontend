@@ -93,6 +93,7 @@ export default {
       if (!success) return this.updateErrorMessage(message);
 
       // Navigate to bulletin
+      this.$nuxt.$router.push("bulletin");
     },
   },
 };
