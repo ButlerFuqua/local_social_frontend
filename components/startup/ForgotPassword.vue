@@ -30,8 +30,8 @@ export default {
   data() {
     return {
       formIsValid: false,
-      emailInput: "",
-      passwordInput: "",
+      emailInput: "example@site.com",
+      passwordInput: "password",
       emailRules: [
         (v) => !!v || "Email is required",
         (v) =>
@@ -86,9 +86,11 @@ export default {
         data: { success, message },
       } = response;
 
-      this.toggleLoading(false);
-
-      if (!success) return this.updateErrorMessage(message);
+      if (!success) {
+        this.updateErrorMessage(message);
+        this.toggleLoading(false);
+        return;
+      }
 
       this.showConfirmPasswordCodeScreen();
     },

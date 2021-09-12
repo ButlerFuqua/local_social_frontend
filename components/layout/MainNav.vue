@@ -1,10 +1,19 @@
 <template>
   <div id="mainNavContainer" :class="shown ? 'shown' : ''">
-    <div id="mainNavContent" calss="pa-4">
+    <div id="mainNavContent" calss="pa-2">
       <v-btn id="closeBtn" @click="hideNav" class="my-2" fab small dark
         >X</v-btn
       >
-      <h1>Main Nav</h1>
+      <br />
+      <v-btn
+        v-for="(btn, idx) in navButtons"
+        :key="idx"
+        class="my-2"
+        rounded
+        :color="$nuxt.$route.fullPath === btn.path ? 'primary' : ''"
+        @click="handleNavClick(btn)"
+        >{{ btn.text }}</v-btn
+      >
     </div>
   </div>
 </template>
@@ -13,6 +22,53 @@
 export default {
   name: "MainNav",
   props: ["shown", "hideNav"],
+  data() {
+    return {
+      navButtons: [
+        {
+          text: "Bulletin",
+          path: "/bulletin",
+        },
+        {
+          text: "Threads",
+          path: "/threads",
+        },
+        {
+          text: "logout",
+          path: "/logout",
+        },
+      ],
+    };
+  },
+  methods: {
+    handleNavClick(btn) {
+      this.$nuxt.$emit("setMainLoading", true);
+
+      const { text, path } = btn;
+
+      // Hidenav and return if user selects teh current page
+      if (path === this.$nuxt.$route.fullPath) {
+        this.$nuxt.$emit("setMainLoading", false);
+        this.hideNav();
+        return;
+      }
+
+      // logout if user selects to logout
+      if (text.toLowerCase() === "logout") this.handleLogout();
+      // Navigate to selected page
+      else
+        this.$nuxt.$router.push(path, () => {
+          this.hideNav();
+          this.$nuxt.$emit("setMainLoading", false);
+        });
+    },
+    handleLogout() {
+      // Remove logout from local Storage
+
+      // Navigate to login
+      this.$nuxt.$router.push("/");
+    },
+  },
 };
 </script>
 

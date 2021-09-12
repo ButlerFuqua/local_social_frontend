@@ -71,10 +71,10 @@ export default {
       errorMessage: null,
       confirmFormIsValid: false,
       newPasswordFormIsValid: false,
-      codeInput: "",
+      codeInput: "777",
       confirmed: false,
-      password1Input: "",
-      password2Input: "",
+      password1Input: "password",
+      password2Input: "password",
       codeRules: [(v) => !!v || "Confirmation code is required"],
       password1Rules: [(v) => !!v || "Password is required"],
       password2Rules: [(v) => !!v || "Password confirmation is required"],
@@ -175,11 +175,16 @@ export default {
         data: { success, message },
       } = response;
 
-      this.isLoading = false;
+      if (!success) {
+        this.errorMessage = message;
+        this.isLoading = false;
+        return;
+      }
 
-      if (!success) return (this.errorMessage = message);
+      // Send snackbar notification
 
-      this.confirmed = true;
+      // Navigate to Bulletin
+      this.$nuxt.$router.push("/bulletin");
     },
   },
 };

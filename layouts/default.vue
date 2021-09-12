@@ -12,8 +12,14 @@
       </v-btn>
     </v-app-bar>
     <v-main class="grey lighten-5">
-      <v-container style="margin: auto">
-        <nuxt />
+      <v-container class="h-100" style="margin: auto">
+        <div v-if="isLoading" class="h-100 d-flex align-center justify-center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
+        </div>
+        <nuxt v-else />
       </v-container>
     </v-main>
   </v-app>
@@ -31,6 +37,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       showNav: false,
       fixed: false,
       navItems: [
@@ -50,9 +57,11 @@ export default {
   },
   async created() {
     this.$nuxt.$on("pageTitleChange", (title) => (this.title = title));
+    this.$nuxt.$on("setMainLoading", (bool) => (this.isLoading = bool));
   },
   beforeDestroy() {
     this.$nuxt.$off("pageTitleChange");
+    this.$nuxt.$off("setMainLoading");
   },
 };
 </script>

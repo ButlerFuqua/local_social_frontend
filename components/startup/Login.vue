@@ -88,9 +88,11 @@ export default {
         data: { success, message },
       } = response;
 
-      this.toggleLoading(false);
-
-      if (!success) return this.updateErrorMessage(message);
+      if (!success) {
+        this.updateErrorMessage(message);
+        this.toggleLoading(false);
+        return;
+      }
 
       // Navigate to bulletin
       this.$nuxt.$router.push("bulletin");
