@@ -86,9 +86,10 @@ export default {
         data: { success, message },
       } = response;
 
+      this.toggleLoading(false);
+
       if (!success) {
         this.updateErrorMessage(message);
-        this.toggleLoading(false);
         return;
       }
 

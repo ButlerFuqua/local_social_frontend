@@ -1,63 +1,42 @@
 <template>
   <div
-    id="container"
-    :class="!isLoading ? 'align-stretch' : 'align-center justify-center'"
+    id="bulletinContainer"
+    class="align-stretch align-stretch pa-2 pb-5 mb-5"
+    :class="!errorMessage ? '' : 'justify-center'"
   >
-    <v-progress-circular
-      v-if="isLoading"
-      indeterminate
+    <AddPostDialog
+      :showAddPostDialog="showAddPostDialog"
+      :closeAddPostDialog="() => (showAddPostDialog = false)"
+      :fetchPosts="fetchAllPosts"
+    />
+    <ErrorMessage v-if="errorMessage" :errorMessage="errorMessage" />
+    <BulletinFilters v-if="!errorMessage" :applyFilter="applyFilter" />
+    <PostList
+      v-if="!errorMessage"
+      :loadingPosts="loadingPosts"
+      :posts="posts"
+      :appliedFilter="appliedFilter"
+    />
+    <EmptyBulletin v-if="!errorMessage && !loadingPosts && posts.length < 1" />
+    <v-btn
+      v-if="!errorMessage && !loadingPosts"
+      class="bottomRightFab"
+      fab
       color="primary"
-    ></v-progress-circular>
-    <div
-      v-if="!isLoading"
-      class="d-flex flex-column pa-2 h-100"
-      :class="!errorMessage ? '' : 'justify-center'"
+      @click="showAddPostDialog = true"
     >
-      <v-chip v-if="errorMessage" class="mb-2" color="red" dark>{{
-        errorMessage
-      }}</v-chip>
-      <div v-if="loadingPosts">
-        <v-skeleton-loader
-          v-for="(num, idx) in Array(skeletonPostsCount).fill(1)"
-          :key="idx"
-          type="article"
-          class="my-2"
-        ></v-skeleton-loader>
-      </div>
-      <div v-else-if="posts.length > 0">
-        <v-card class="my-2" outlined v-for="(post, idx) in posts" :key="idx">
-          <v-list-item three-line>
-            <v-list-item-avatar
-              circle
-              size="80"
-              color="grey"
-            ></v-list-item-avatar>
-            <v-list-item-content>
-              <div class="text-overline mb-4">{{ post.username }}</div>
-              <p>{{ post.body }}</p>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-card-actions>
-            <v-btn rounded text color="primary"> Comment </v-btn>
-          </v-card-actions>
-        </v-card>
-      </div>
-      <div
-        v-else-if="!errorMessage"
-        class="h-100 d-flex flex-column justify-center align-center"
-      >
-        <h3 class="headline mb-4">Your Bulletin is empty! 🙀</h3>
-        <v-btn class="mb-2" rounded color="primary">Make some friends 😀</v-btn>
-        <p class="my-0">Or</p>
-        <v-btn class="mt-2" rounded color="primary">Join some Threads 😄</v-btn>
-      </div>
-    </div>
+      <v-icon>+</v-icon>
+    </v-btn>
   </div>
 </template>
 
 <script>
 import generateHeadTags from "../lib/generateMeta";
+import BulletinFilters from "../components/bulletin/BulletinFilters.vue";
+import PostList from "../components/bulletin/posts/PostList.vue";
+import EmptyBulletin from "../components/bulletin/EmptyBulletin.vue";
+import ErrorMessage from "../components/progress/ErrorMessage.vue";
+import AddPostDialog from "../components/bulletin/posts/AddPostDialog.vue";
 export default {
   head: generateHeadTags(
     "Creek bank Bulletin",
@@ -66,20 +45,30 @@ export default {
     null,
     true
   ),
-  components: {},
+  components: {
+    BulletinFilters,
+    PostList,
+    EmptyBulletin,
+    ErrorMessage,
+    AddPostDialog,
+  },
   data() {
     return {
       pageTitle: "Creek bank Bulletin",
-      isLoading: false,
+      showAddPostDialog: false,
       errorMessage: null,
       loadingPosts: false,
       errorMessage: null,
-      skeletonPostsCount: 15,
+      appliedFilter: "All",
       posts: [],
     };
   },
   methods: {
+    applyFilter(str) {
+      this.appliedFilter = str;
+    },
     async fetchAllPosts() {
+      this.showAddPostDialog = false;
       this.errorMessage = null;
       this.loadingPosts = true;
       //REPLACE FROM -------------------------------------------------------
@@ -95,11 +84,20 @@ export default {
                   success: true,
                   message: `All posts fetched`,
                   posts: !simulateNoPosts
-                    ? Array(30)
+                    ? Array(10)
                         .fill(1)
                         .map((num, idx) => ({
+                          _id: `${Math.random() * (15000 * idx)}`,
+                          postType: "just_saying",
                           username: `User ${idx + num}`,
                           body: `Body of post ${idx + num}`,
+                          source:
+                            Math.floor(Math.random() * 100) < 50
+                              ? "thread"
+                              : "friend",
+                          comments: Array(Math.floor(Math.random() * 15)).fill(
+                            Math.random().toString()
+                          ),
                         }))
                     : [],
                 },
@@ -149,13 +147,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#container {
+#bulletinContainer {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   overflow: auto;
-  background-image: linear-gradient(to top, #ffc3a0 0%, #ffafbd 100%);
+  background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+  background-attachment: fixed;
 }
 </style>
 
+/**Why you should do it regularly:
+https://github.com/browserslist/browserslist#browsers-data-updating
+Current version: 1.0.30001170 */
