@@ -85,6 +85,7 @@ export default {
       //REPLACE FROM -------------------------------------------------------
       const fakeWaitTime = 600;
       const simulateError = false;
+      const simulateNoPosts = false;
       const fakeFetchPromise = () =>
         new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -93,12 +94,14 @@ export default {
                 data: {
                   success: true,
                   message: `All posts fetched`,
-                  posts: Array(30)
-                    .fill(1)
-                    .map((num, idx) => ({
-                      username: `User ${idx + num}`,
-                      body: `Body of post ${idx + num}`,
-                    })),
+                  posts: !simulateNoPosts
+                    ? Array(30)
+                        .fill(1)
+                        .map((num, idx) => ({
+                          username: `User ${idx + num}`,
+                          body: `Body of post ${idx + num}`,
+                        }))
+                    : [],
                 },
               });
             else
