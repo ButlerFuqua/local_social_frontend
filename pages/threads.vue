@@ -9,8 +9,6 @@
       <v-chip v-if="errorMessage" class="mb-2" color="red" dark>{{
         errorMessage
       }}</v-chip>
-
-      <h1>Threads</h1>
     </div>
   </div>
 </template>

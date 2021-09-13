@@ -12,7 +12,7 @@
       </v-btn>
     </v-app-bar>
     <v-main class="grey lighten-5">
-      <v-container class="h-100" style="margin: auto">
+      <v-container class="h-100 pa-0" style="margin: auto">
         <div v-if="isLoading" class="h-100 d-flex align-center justify-center">
           <v-progress-circular
             indeterminate
