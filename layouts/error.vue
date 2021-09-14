@@ -13,10 +13,6 @@
       <p v-else>{{ otherError }}</p>
     </v-alert>
     <v-divider class="my-4"></v-divider>
-    <div class="text-center my-4">
-      <h2>Recent updates</h2>
-    </div>
-    <v-divider class="my-4"></v-divider>
   </v-container>
 </template>
 

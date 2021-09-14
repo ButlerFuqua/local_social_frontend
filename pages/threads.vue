@@ -34,7 +34,7 @@
 
 <script>
 import generateHeadTags from "../lib/generateMeta";
-import ThreadFilters from "../components/threads/ThreadFilters.vue";
+import ThreadFilters from "../components/threads/filters/ThreadFilters.vue";
 import ThreadList from "../components/threads/ThreadList.vue";
 import EmptyThreads from "../components/threads/EmptyThreads.vue";
 import ErrorMessage from "../components/progress/ErrorMessage.vue";
