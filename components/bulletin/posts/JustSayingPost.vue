@@ -1,16 +1,19 @@
 <template>
   <div class="my-3 justsayingPostContainer" outlined>
     <v-list-item three-line>
-      <v-list-item-avatar
-        circle
-        size="80"
-        color="grey lighten-3"
-      ></v-list-item-avatar>
       <v-list-item-content>
-        <div class="d-flex mb-4 justify-space-between">
-          <v-chip color="pink lighten-5" class="mr-1">{{
-            post.username
-          }}</v-chip>
+        <div class="d-flex justify-space-between align-center">
+          <div class="d-flex align-center">
+            <v-list-item-avatar
+              circle
+              size="40"
+              color="grey lighten-3"
+              class="ml-0"
+            ></v-list-item-avatar>
+            <v-chip color="pink lighten-5" class="mr-1">{{
+              post.username
+            }}</v-chip>
+          </div>
           <div>
             <v-chip outlined color="yellow lighten-2">JS</v-chip>
             <v-chip

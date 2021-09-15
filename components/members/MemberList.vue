@@ -58,13 +58,13 @@ export default {
       const filter = this.appliedFilter.toLowerCase();
 
       if (filter === "all") return [...this.members];
-      if (filter === "members")
-        return this.members.filter(
-          (member) => member.source.toLowerCase() === "member"
-        );
       if (filter === "friends")
         return this.members.filter(
-          (member) => member.source.toLowerCase() === "friend"
+          (member) => member.source.toLowerCase() === "friends"
+        );
+      if (filter === "not friends")
+        return this.members.filter(
+          (member) => member.source.toLowerCase() === "not friends"
         );
     },
   },
