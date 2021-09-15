@@ -29,7 +29,7 @@
 <script>
 export default {
   data: () => ({
-    items: ["Gaming", "Programming", "Vue", "Vuetify"],
+    items: ["Gaming", "Fishing", "Hangin Out", "Partying"],
     model: [],
     search: null,
   }),
