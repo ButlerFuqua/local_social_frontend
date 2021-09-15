@@ -6,32 +6,31 @@
       hide-overlay
       transition="dialog-bottom-transition"
     >
-      <AddCommentDialog
-        :showAddCommentDialog="showAddCommentDialog"
-        :closeAddCommentDialog="() => (showAddCommentDialog = false)"
-        :postId="post._id"
-        :fetchPost="fetchPost"
-      />
-      <v-card>
+      <v-card tile>
         <v-toolbar dark color="secondary">
-          <v-btn icon dark @click="closePostDialog">
+          <v-btn icon dark @click="closeThreadDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ post.username }}</v-toolbar-title>
+          <v-toolbar-title v-if="isLoading && !thread"
+            >Loading...</v-toolbar-title
+          >
+          <v-toolbar-title v-else>{{ thread.title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="closePostDialog"> Close </v-btn>
+            <v-btn dark text @click="closeThreadDialog"> Close </v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
           <v-list-item>
-            <v-list-item-content> {{ post.body }} </v-list-item-content>
+            <v-list-item-content v-if="isLoading && !thread">
+              Loading...
+            </v-list-item-content>
+            <v-list-item-content v-else>
+              {{ thread.description }}
+            </v-list-item-content>
           </v-list-item>
         </v-list>
         <v-divider></v-divider>
-
-        <!-- Skeleton loader -->
-        <!-- <CommentSkeletons v-if="loadingComments" /> -->
 
         <!-- Error Message -->
         <div
@@ -40,30 +39,7 @@
         >
           <ErrorMessage :errorMessage="errorMessage" />
         </div>
-
-        <!-- No comments message -->
-        <div
-          v-else-if="comments.length < 1"
-          class="d-flex flex-column justify-center align-center pa-3"
-        >
-          <p>There are no comments yet.</p>
-          <v-btn
-            rounded
-            text
-            color="primary"
-            @click="showAddCommentDialog = true"
-            >Be the first! 😀</v-btn
-          >
-        </div>
       </v-card>
-      <v-btn
-        class="bottomRightFab"
-        fab
-        color="primary"
-        @click="showAddCommentDialog = true"
-      >
-        <v-icon>+</v-icon>
-      </v-btn>
     </v-dialog>
   </v-row>
 </template>
@@ -72,29 +48,28 @@
 import ErrorMessage from "../progress/ErrorMessage.vue";
 
 export default {
-  name: "PostDialog",
-  props: ["post", "showDialog", "closePostDialog"],
+  name: "ViewThreadDialog",
+  props: ["threadId", "showDialog", "closeThreadDialog"],
   components: { ErrorMessage },
   data() {
     return {
-      loadingComments: true,
+      isLoading: true,
       errorMessage: null,
       notifications: false,
       sound: true,
       widgets: false,
       comments: [],
       showAddCommentDialog: false,
+      thread: null,
     };
   },
   methods: {
-    async fetchPost() {
+    async fetchThread() {
       this.errorMessage = null;
-      this.loadingComments = true;
-      this.showAddCommentDialog = false;
+      this.isLoading = true;
       //REPLACE FROM -------------------------------------------------------
       const fakeWaitTime = 600;
       const simulateError = false;
-      const simulateNoComments = false;
       const fakeFetchPromise = () =>
         new Promise((resolve, reject) => {
           setTimeout(() => {
@@ -102,20 +77,19 @@ export default {
               resolve({
                 data: {
                   success: true,
-                  message: `Coimments have been fetched.`,
-                  comments: !simulateNoComments
-                    ? this.post.comments.map((comment, idx) => ({
-                        body: `Comment ${comment} ${idx + 1}`,
-                        author: `Author ${idx + 1}`,
-                      }))
-                    : [],
+                  message: `Thread has been fetched`,
+                  thread: {
+                    _id: this.threadId,
+                    title: "Title of the thread",
+                    description: "Description of the thread",
+                  },
                 },
               });
             else
               reject({
                 data: {
                   success: false,
-                  message: `There was an error fetching the comments.`,
+                  message: `There was an error fetching the thread.`,
                 },
               });
           }, fakeWaitTime);
@@ -130,22 +104,21 @@ export default {
       }
 
       const {
-        data: { success, message, comments: resComments },
+        data: { success, message, thread: fetchedThread },
       } = response;
 
-      this.loadingComments = false;
+      this.isLoading = false;
 
       if (!success) {
         this.errorMessage = message;
         return;
       }
 
-      // Inject comments
-      this.comments = resComments;
+      this.thread = fetchedThread;
     },
   },
   async created() {
-    await this.fetchPost();
+    await this.fetchThread();
   },
 };
 </script>

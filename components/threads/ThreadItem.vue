@@ -6,7 +6,14 @@
         <v-list-item-subtitle>{{ thread.description }}</v-list-item-subtitle>
         <v-divider class="my-4"></v-divider>
       </v-list-item-content>
-      <v-btn rounded outlined small color="secondary">View</v-btn>
+      <v-btn
+        rounded
+        outlined
+        small
+        color="secondary"
+        @click="showThread(thread)"
+        >View</v-btn
+      >
     </v-list-item>
   </div>
 </template>

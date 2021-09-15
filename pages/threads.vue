@@ -4,13 +4,11 @@
     class="align-stretch align-stretch pa-2 pb-5 mb-5"
     :class="!errorMessage ? '' : 'justify-center'"
   >
-    <AddThreadDialog
-      :showAddThreadDialog="showAddThreadDialog"
-      :closeAddThreadDialog="() => (showAddThreadDialog = false)"
-      :fetchPosts="fetchAllThreads"
-    />
     <ErrorMessage v-if="errorMessage" :errorMessage="errorMessage" />
-    <ThreadFilters v-if="!errorMessage" :applyFilter="applyFilter" />
+    <div v-if="!errorMessage" class="d-flex justify-space-around align-center">
+      <ThreadFilters :applyFilter="applyFilter" />
+      <AddThread :fetchAllThreads="fetchAllThreads" />
+    </div>
     <ThreadList
       v-if="!errorMessage"
       :loadingThreads="loadingThreads"
@@ -20,25 +18,16 @@
     <EmptyThreads
       v-if="!errorMessage && !loadingThreads && threads.length < 1"
     />
-    <v-btn
-      v-if="!errorMessage && !loadingThreads"
-      class="bottomRightFab"
-      fab
-      color="primary"
-      @click="showAddThreadDialog = true"
-    >
-      <v-icon>+</v-icon>
-    </v-btn>
   </div>
 </template>
 
 <script>
 import generateHeadTags from "../lib/generateMeta";
 import ThreadFilters from "../components/threads/filters/ThreadFilters.vue";
+import AddThread from "../components/threads/AddThread.vue";
 import ThreadList from "../components/threads/ThreadList.vue";
 import EmptyThreads from "../components/threads/EmptyThreads.vue";
 import ErrorMessage from "../components/progress/ErrorMessage.vue";
-import AddThreadDialog from "../components/threads/AddThreadDialog.vue";
 export default {
   head: generateHeadTags(
     "Creek bank Threads",
@@ -52,12 +41,11 @@ export default {
     ThreadList,
     EmptyThreads,
     ErrorMessage,
-    AddThreadDialog,
+    AddThread,
   },
   data() {
     return {
       pageTitle: "Creek bank Threads",
-      showAddThreadDialog: false,
       errorMessage: null,
       loadingThreads: false,
       errorMessage: null,

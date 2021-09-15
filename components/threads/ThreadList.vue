@@ -1,8 +1,8 @@
 <template>
   <div>
-    <ThreadDialog
+    <ViewThreadDialog
       v-if="threadToShow"
-      :thread="threadToShow"
+      :threadId="threadToShow._id"
       :showDialog="showDialog"
       :closeThreadDialog="closeThreadDialog"
     />
@@ -27,11 +27,11 @@
 
 <script>
 import ThreadItem from "./ThreadItem.vue";
-import ThreadDialog from "./ViewThreadDialog.vue";
+import ViewThreadDialog from "./ViewThreadDialog.vue";
 export default {
   name: "ThreadList",
   props: ["loadingThreads", "threads", "appliedFilter"],
-  components: { ThreadItem, ThreadDialog },
+  components: { ThreadItem, ViewThreadDialog },
   data() {
     return {
       skeletonThreadsCount: 12,

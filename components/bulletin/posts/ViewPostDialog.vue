@@ -12,7 +12,7 @@
         :postId="post._id"
         :fetchPost="fetchPost"
       />
-      <v-card>
+      <v-card tile>
         <v-toolbar dark color="secondary">
           <v-btn icon dark @click="closePostDialog">
             <v-icon>mdi-close</v-icon>

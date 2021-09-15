@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="showAddPostDialog" width="500">
+    <v-dialog fullscreen v-model="showAddThreadDialog">
       <v-card
         v-if="isLoading"
         height="250"
@@ -11,18 +11,25 @@
           color="primary"
         ></v-progress-circular>
       </v-card>
-      <v-card v-else>
+      <v-card tile v-else>
         <v-card-title class="text-h6 primary lighten-2">
-          Add post
+          Add thread
         </v-card-title>
 
         <v-form class="pa-2" ref="form" v-model="formIsValid">
+          <v-text-field
+            filled
+            label="Title"
+            v-model="threadTitle"
+            :rules="threadRules"
+          ></v-text-field>
+          <ActivitiesComboBox />
+          <InterestsComboBox />
           <v-textarea
             filled
-            label="Post"
-            placeholder=""
-            v-model="postBody"
-            :rules="bodyRules"
+            label="Description of thread"
+            v-model="threadDescription"
+            :rules="descriptionRules"
           ></v-textarea>
         </v-form>
 
@@ -30,10 +37,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" text @click="closeAddPostDialog">
+          <v-btn color="secondary" text @click="closeAddThreadDialog">
             Cancel
           </v-btn>
-          <v-btn color="primary" text @click="addPostHandler"> Submit </v-btn>
+          <v-btn color="primary" text @click="addThreadHandler"> Submit </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -41,21 +48,28 @@
 </template>
 
 <script>
+import ActivitiesComboBox from "./ActivitiesComboBox.vue";
+import InterestsComboBox from "./InterestsComboBox.vue";
 export default {
-  name: "AddPostDialog",
-  props: ["showAddPostDialog", "closeAddPostDialog", "fetchPosts"],
+  name: "AddThreadDialog",
+  props: ["showAddThreadDialog", "closeAddThreadDialog", "fetchThreads"],
+  components: { ActivitiesComboBox, InterestsComboBox },
   data() {
     return {
       isLoading: false,
       errorMessage: null,
       formIsValid: false,
-      postBody: "",
-      postAuthor: "",
-      bodyRules: [(v) => !!v || "Post body is required"],
+      threadTitle: "",
+      threadDescription: "",
+      threadAuthor: "",
+      threadRules: [(v) => !!v || "Thread title is required"],
+      descriptionRules: [(v) => true],
+      selectedActivities: ["Vuetify", "Programming"],
+      availableActivities: ["Programming", "Design", "Vue", "Vuetify"],
     };
   },
   methods: {
-    async addPostHandler() {
+    async addThreadHandler() {
       // Show errors if not valid
       this.$refs.form.validate();
 
@@ -67,21 +81,21 @@ export default {
       //REPLACE FROM -------------------------------------------------------
       const fakeWaitTime = 600;
       const simulateError = false;
-      const fakePostPromise = () =>
+      const fakeThreadPromise = () =>
         new Promise((resolve, reject) => {
           setTimeout(() => {
             if (!simulateError)
               resolve({
                 data: {
                   success: true,
-                  message: `Post has been submitted to the bulletin.`,
+                  message: `Thread has been submitted to the bulletin.`,
                 },
               });
             else
               reject({
                 data: {
                   success: false,
-                  message: `There was an error adding your post to the bulletin.`,
+                  message: `There was an error adding your thread to the bulletin.`,
                 },
               });
           }, fakeWaitTime);
@@ -90,7 +104,7 @@ export default {
 
       let response;
       try {
-        response = await fakePostPromise();
+        response = await fakeThreadPromise();
       } catch (error) {
         response = error;
       }
@@ -106,14 +120,15 @@ export default {
       }
 
       // Close and Initialize parent Component
-      this.fetchPosts();
-      setTimeout(() => this.clearPost(), 500);
+      this.fetchThreads();
+      setTimeout(() => this.clearThread(), 500);
     },
-    clearPost() {
+    clearThread() {
       this.isLoading = false;
       this.formIsValid = false;
-      this.postBody = "";
-      this.postAuthor = "";
+      this.threadTitle = "";
+      this.threadAuthor = "";
+      this.closeAddThreadDialog();
     },
   },
 };

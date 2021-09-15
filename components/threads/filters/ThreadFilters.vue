@@ -12,7 +12,7 @@
       rounded
       elevation="0"
       outlined
-      :color="appliedFilters.length > 0 ? 'primary' : ''"
+      :color="appliedFilters.length > 0 ? 'secondary' : ''"
       @click="showDialog = true"
       >Filters</v-btn
     >

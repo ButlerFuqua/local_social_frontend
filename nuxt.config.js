@@ -50,7 +50,7 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     treeShake: true,
-    defaultAssets: false,
+    // defaultAssets: false,
     theme: {
       light: true,
       themes: {
