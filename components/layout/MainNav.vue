@@ -34,6 +34,10 @@ export default {
           path: "/threads",
         },
         {
+          text: "Members",
+          path: "/members",
+        },
+        {
           text: "logout",
           path: "/logout",
         },
