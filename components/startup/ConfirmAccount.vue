@@ -24,8 +24,8 @@ export default {
   components: {},
   data() {
     return {
-      emailInput: "",
-      codeInput: "",
+      emailInput: "example@site.com",
+      codeInput: "555",
       formIsValid: false,
       codeRules: [(v) => !!v || "Confirmation code is required"],
     };

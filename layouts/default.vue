@@ -1,52 +1,47 @@
 <template>
   <v-app dark>
-    <MainNav :shown="showNav" :hideNav="() => (showNav = false)" />
-    <v-app-bar fixed app flat class="grey lighten-3">
-      <v-btn icon :aria-label="`Toggle Side nav`" @click.stop="showNav = true">
-        <menu-icon />
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn :aria-label="`Reload to get updates`" @click="reloadWindow" icon>
-        <reload-icon />
-      </v-btn>
-    </v-app-bar>
-    <v-main class="grey lighten-5">
-      <v-container class="h-100 pa-0" style="margin: auto">
-        <div v-if="isLoading" class="h-100 d-flex align-center justify-center">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-        </div>
-        <nuxt v-else />
-      </v-container>
+    <SideNav :shown="showNav" :hideNav="() => (showNav = false)" />
+    <TopBar :title="title" :toggleNav="() => (showNav = true)" />
+    <v-main class="grey lighten-3">
+      <AddPostDialog
+        :showAddPostDialog="showAddPostDialog"
+        :togglePostDialog="
+          (bool) => (showAddPostDialog = bool || !showAddPostDialog)
+        "
+      />
+      <div v-if="isLoading" class="h-100 d-flex align-center justify-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
+      <nuxt v-else />
     </v-main>
+    <BottomNav />
   </v-app>
 </template>
 
 <script>
 import MenuIcon from "../components/icons/MenuIcon.vue";
 import ReloadIcon from "../components/icons/ReloadIcon";
-import MainNav from "../components/layout/MainNav.vue";
+import SideNav from "../components/layout/SideNav.vue";
+import BottomNav from "../components/layout/BottomNav.vue";
+import TopBar from "../components/layout/TopBar.vue";
 export default {
   components: {
     ReloadIcon,
     MenuIcon,
-    MainNav,
+    SideNav,
+    TopBar,
+    BottomNav,
   },
   data() {
     return {
       isLoading: false,
       showNav: false,
+      showAddPostDialog: false,
       fixed: false,
-      navItems: [
-        {
-          emoji: "🏡",
-          title: "Welcome",
-          to: "/",
-        },
-      ],
+      value: "recent",
       title: "",
     };
   },
@@ -58,10 +53,12 @@ export default {
   async created() {
     this.$nuxt.$on("pageTitleChange", (title) => (this.title = title));
     this.$nuxt.$on("setMainLoading", (bool) => (this.isLoading = bool));
+    this.$nuxt.$on("showAddPostDialog", () => (this.showAddPostDialog = true));
   },
   beforeDestroy() {
     this.$nuxt.$off("pageTitleChange");
     this.$nuxt.$off("setMainLoading");
+    this.$nuxt.$off("showAddPostDialog");
   },
 };
 </script>

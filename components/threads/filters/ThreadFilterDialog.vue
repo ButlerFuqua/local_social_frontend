@@ -48,6 +48,11 @@ export default {
           type: "checkbox",
           options: ["Sports", "Video Games", "Coffee"],
         },
+        {
+          title: "Joined",
+          type: "radio",
+          options: ["All", "Joined", "Not joined"],
+        },
       ],
     };
   },
@@ -60,9 +65,6 @@ export default {
     },
     clearFilters() {
       // Clear all filters
-
-      // If successful, close dialog
-      this.closeThreadFiltersDialog();
     },
   },
 };

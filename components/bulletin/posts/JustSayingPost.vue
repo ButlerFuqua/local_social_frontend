@@ -1,5 +1,5 @@
 <template>
-  <div class="my-3 justsayingPostContainer" outlined>
+  <v-card class="my-3" outlined>
     <v-list-item three-line>
       <v-list-item-content>
         <div class="d-flex justify-space-between align-center">
@@ -10,12 +10,12 @@
               color="grey lighten-3"
               class="ml-0"
             ></v-list-item-avatar>
-            <v-chip color="pink lighten-5" class="mr-1">{{
+            <v-chip outlined color="grey darken-1" class="mr-1">{{
               post.username
             }}</v-chip>
           </div>
           <div>
-            <v-chip outlined color="yellow lighten-2">JS</v-chip>
+            <v-chip outlined color="blue lighten-2">JS</v-chip>
             <v-chip
               outlined
               :color="
@@ -37,7 +37,7 @@
       </v-btn>
     </v-card-actions>
     <v-divider></v-divider>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -48,7 +48,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.justsayingPostContainer {
-  background: rgba(255, 255, 255, 0.1);
-}
 </style>

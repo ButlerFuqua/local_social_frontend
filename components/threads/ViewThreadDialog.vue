@@ -17,7 +17,7 @@
           <v-toolbar-title v-else>{{ thread.title }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark text @click="closeThreadDialog"> Close </v-btn>
+            <v-btn dark text @click="joinThread"> Join </v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
@@ -64,6 +64,9 @@ export default {
     };
   },
   methods: {
+    async joinThread() {
+      console.log("Join Thread");
+    },
     async fetchThread() {
       this.errorMessage = null;
       this.isLoading = true;

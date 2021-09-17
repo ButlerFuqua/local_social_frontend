@@ -30,7 +30,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" text @click="closeAddPostDialog">
+          <v-btn color="secondary" text @click="togglePostDialog(false)">
             Cancel
           </v-btn>
           <v-btn color="primary" text @click="addPostHandler"> Submit </v-btn>
@@ -43,7 +43,7 @@
 <script>
 export default {
   name: "AddPostDialog",
-  props: ["showAddPostDialog", "closeAddPostDialog", "fetchPosts"],
+  props: ["showAddPostDialog", "togglePostDialog", "fetchPosts"],
   data() {
     return {
       isLoading: false,
@@ -106,7 +106,11 @@ export default {
       }
 
       // Close and Initialize parent Component
-      this.fetchPosts();
+      const isOnBulletin = this.$nuxt.$route.name === "bulletin";
+      if (isOnBulletin) {
+        if (this.fetchPosts) this.fetchPosts();
+        else this.$nuxt.$emit("fetchAllPosts");
+      }
       setTimeout(() => this.clearPost(), 500);
     },
     clearPost() {
@@ -114,6 +118,7 @@ export default {
       this.formIsValid = false;
       this.postBody = "";
       this.postAuthor = "";
+      this.togglePostDialog(false);
     },
   },
 };

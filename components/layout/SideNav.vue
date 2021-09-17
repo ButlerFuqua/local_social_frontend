@@ -1,26 +1,28 @@
 <template>
-  <div id="mainNavContainer" :class="shown ? 'shown' : ''">
-    <div id="mainNavContent" calss="pa-2">
+  <div id="sideNavContainer" :class="shown ? 'shown' : ''">
+    <div id="sideNavContent" calss="pa-2">
       <v-btn id="closeBtn" @click="hideNav" class="my-2" fab small dark
         >X</v-btn
       >
       <br />
-      <v-btn
-        v-for="(btn, idx) in navButtons"
-        :key="idx"
-        class="my-2"
-        rounded
-        :color="$nuxt.$route.fullPath === btn.path ? 'primary' : ''"
-        @click="handleNavClick(btn)"
-        >{{ btn.text }}</v-btn
-      >
+      <div class="d-flex flex-column">
+        <v-btn
+          v-for="(btn, idx) in navButtons"
+          :key="idx"
+          class="my-2"
+          rounded
+          :color="$nuxt.$route.fullPath === btn.path ? 'primary' : ''"
+          @click="handleNavClick(btn)"
+          >{{ btn.text }}</v-btn
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MainNav",
+  name: "SideNav",
   props: ["shown", "hideNav"],
   data() {
     return {
@@ -38,8 +40,12 @@ export default {
           path: "/members",
         },
         {
-          text: "logout",
+          text: "Logout",
           path: "/logout",
+        },
+        {
+          text: "Settings",
+          path: "/settings",
         },
       ],
     };
@@ -77,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#mainNavContainer {
+#sideNavContainer {
   position: fixed;
   height: 100%;
   width: 100%;
@@ -95,7 +101,7 @@ export default {
     opacity: 1;
   }
 }
-#mainNavContent {
+#sideNavContent {
   height: 100%;
   width: 100%;
   background-image: linear-gradient(to top, #c471f5cc 0%, #fa71cdb8 100%);

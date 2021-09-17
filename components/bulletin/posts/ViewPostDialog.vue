@@ -12,7 +12,7 @@
         :postId="post._id"
         :fetchPost="fetchPost"
       />
-      <v-card tile>
+      <v-card tile class="pb-5">
         <v-toolbar dark color="secondary">
           <v-btn icon dark @click="closePostDialog">
             <v-icon>mdi-close</v-icon>
@@ -58,15 +58,13 @@
 
         <!-- List of comments -->
         <CommentList v-else :comments="comments" />
+        <br />
+        <div id="addCommentBtnContainer" class="d-flex justify-center pb-2">
+          <v-btn rounded color="primary" @click="showAddCommentDialog = true">
+            Add Comment
+          </v-btn>
+        </div>
       </v-card>
-      <v-btn
-        class="bottomRightFab"
-        fab
-        color="primary"
-        @click="showAddCommentDialog = true"
-      >
-        <v-icon>+</v-icon>
-      </v-btn>
     </v-dialog>
   </v-row>
 </template>
@@ -156,4 +154,9 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+#addCommentBtnContainer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
 </style>
