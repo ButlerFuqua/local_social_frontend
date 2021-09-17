@@ -1,5 +1,5 @@
 <template>
-  <v-card class="my-3" outlined>
+  <v-card class="my-3">
     <v-list-item three-line>
       <v-list-item-content>
         <div class="d-flex justify-space-between align-center">
@@ -15,28 +15,25 @@
             }}</v-chip>
           </div>
           <div>
-            <v-chip outlined color="blue lighten-2">JS</v-chip>
+            <v-chip outlined color="teal ">JS</v-chip>
             <v-chip
               outlined
-              :color="
-                post.source === 'friend' ? 'blue lighten-4' : 'green lighten-4'
-              "
+              :color="post.source === 'friend' ? 'blue ' : 'green'"
               >{{ post.source[0].toUpperCase() }}</v-chip
             >
           </div>
         </div>
-        <v-card flat class="pa-2">
+        <div class="pa-2">
           {{ post.body }}
-        </v-card>
+        </div>
       </v-list-item-content>
     </v-list-item>
-
-    <v-card-actions>
+    <v-card-actions class="d-flex justify-space-between">
       <v-btn rounded text color="secondary" @click="showPost(post)">
         Comment ({{ post.comments.length }})
       </v-btn>
+      <v-btn small rounded text color="red lighten-3"> Report </v-btn>
     </v-card-actions>
-    <v-divider></v-divider>
   </v-card>
 </template>
 

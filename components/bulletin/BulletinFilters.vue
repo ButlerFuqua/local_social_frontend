@@ -5,7 +5,7 @@
       :key="idx"
       small
       rounded
-      elevation="0"
+      :outlined="selected !== filter"
       :color="selected === filter ? 'primary' : ''"
       @click="updateSelection(filter)"
       >{{ filter }}</v-btn

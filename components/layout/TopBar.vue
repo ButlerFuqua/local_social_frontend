@@ -1,7 +1,7 @@
 <template>
   <v-app-bar hide-on-scroll dense fixed app flat class="white">
     <v-btn icon :aria-label="`Toggle Side nav`" @click.stop="toggleNav">
-      <v-icon class="white"> mdi-circle </v-icon>
+      <v-icon class="white text-h4"> mdi-circle </v-icon>
     </v-btn>
     <v-toolbar-title v-text="title" />
     <v-spacer />
