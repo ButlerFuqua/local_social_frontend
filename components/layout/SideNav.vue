@@ -1,11 +1,7 @@
 <template>
   <div id="sideNavContainer" :class="shown ? 'shown' : ''">
-    <div id="sideNavContent" calss="pa-2">
-      <v-btn id="closeBtn" @click="hideNav" class="my-2" fab small dark
-        >X</v-btn
-      >
-      <br />
-      <div class="d-flex flex-column">
+    <div id="sideNavContent" class="pa-2">
+      <div class="d-flex flex-column pt-3">
         <v-btn
           v-for="(btn, idx) in navButtons"
           :key="idx"
@@ -16,6 +12,9 @@
           >{{ btn.text }}</v-btn
         >
       </div>
+      <v-btn id="closeBtn" @click="hideNav" class="my-2" fab small dark
+        >X</v-btn
+      >
     </div>
   </div>
 </template>
@@ -27,18 +26,6 @@ export default {
   data() {
     return {
       navButtons: [
-        {
-          text: "Bulletin",
-          path: "/bulletin",
-        },
-        {
-          text: "Threads",
-          path: "/threads",
-        },
-        {
-          text: "Members",
-          path: "/members",
-        },
         {
           text: "Logout",
           path: "/logout",

@@ -1,21 +1,20 @@
 <template>
-  <div>
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title>{{ thread.title }}</v-list-item-title>
-        <v-list-item-subtitle>{{ thread.description }}</v-list-item-subtitle>
-        <v-divider class="my-4"></v-divider>
-      </v-list-item-content>
-      <v-btn
-        rounded
-        outlined
-        small
-        color="secondary"
-        @click="showThread(thread)"
-        >View</v-btn
-      >
-    </v-list-item>
-  </div>
+  <v-card class="my-3">
+    <!-- <v-card-title>{{ thread.title }}</v-card-title> -->
+    <div class="px-3 pt-3">{{ thread.title }} Lorem ipsum dolor sit amet</div>
+    <!-- <v-card-text>
+      {{ thread.description }}
+    </v-card-text> -->
+
+    <v-card-actions>
+      <v-btn rounded text color="secondary" @click="showThread(thread)">
+        View
+      </v-btn>
+      <v-btn small rounded text color="primary" @click="showThread(thread)">
+        Members (14)
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

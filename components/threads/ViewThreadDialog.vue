@@ -7,7 +7,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card tile>
-        <v-toolbar dark color="secondary">
+        <v-toolbar dense dark color="secondary">
           <v-btn icon dark @click="closeThreadDialog">
             <v-icon>mdi-close</v-icon>
           </v-btn>

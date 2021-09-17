@@ -1,13 +1,11 @@
 <template>
-  <v-bottom-navigation
-    hide-on-scroll
-    fixed
-    app
-    :value="value"
-    color="primary"
-    grow
-  >
-    <v-btn v-for="btn in buttons" :key="btn.text" @click="updateNav(btn)">
+  <v-bottom-navigation hide-on-scroll fixed app color="primary" grow>
+    <v-btn
+      v-for="btn in buttons"
+      :key="btn.text"
+      :value="btn.text"
+      @click="updateNav(btn)"
+    >
       <span>{{ btn.text }}</span>
       <v-icon>{{ btn.icon }}</v-icon>
     </v-btn>
@@ -20,7 +18,6 @@ export default {
   props: ["startingBtn"],
   data() {
     return {
-      value: "bulletin",
       buttons: [
         {
           text: "Buelletin",
@@ -47,6 +44,7 @@ export default {
   },
   methods: {
     updateNav(btn) {
+      console.log("value", this.value);
       const { path } = btn;
       if (path !== "POST") this.$nuxt.$router.push(path);
       else console.log(this.$nuxt.$emit("showAddPostDialog"));
@@ -54,31 +52,13 @@ export default {
     updateValue(newValue) {
       this.value = newValue;
     },
-    handleNavClick(btn) {
-      this.$nuxt.$emit("setMainLoading", true);
-
-      const { text, path } = btn;
-
-      // Hidenav and return if user selects teh current page
-      if (path === this.$nuxt.$route.fullPath) {
-        this.$nuxt.$emit("setMainLoading", false);
-        this.hideNav();
-        return;
-      }
-
-      // logout if user selects to logout
-      if (text.toLowerCase() === "logout") this.handleLogout();
-      // Navigate to selected page
-      else
-        this.$nuxt.$router.push(path, () => {
-          this.hideNav();
-          this.$nuxt.$emit("setMainLoading", false);
-        });
-    },
   },
   created() {
-    if (this.startingBtn) this.value = this.startingBtn;
-    else this.value = "bulletin";
+    // if (this.startingBtn) this.value = this.startingBtn;
+    // const { name } = this.$nuxt.$route;
+    // // console.log("name", name);
+    // this.value = 2;
+    // // else this.value = "bulletin";
   },
 };
 </script>

@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      pageTitle: "Creek bank Threads",
+      pageTitle: "Threads",
       errorMessage: null,
       loadingThreads: false,
       errorMessage: null,
@@ -141,8 +141,8 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   overflow: auto;
-  background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
-  background-attachment: fixed;
+  // background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+  // background-attachment: fixed;
 }
 </style>
 
